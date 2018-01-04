@@ -109,7 +109,7 @@ def update():
                             rabbit_neighbors += 1
                         if grid[((x+dx) % space_size)][((y+dy) % space_size)].label.find('s') > -1:
                             stag_neighbors += 1
-            print str(x) + ", " + str(y) + " is " +str(grid[x][y]) + "with these neighbors: foxes: " + str(fox_neighbors) + " rabbits: "+ str(rabbit_neighbors) + " stags: "+ str(stag_neighbors)
+            print str(x) + ", " + str(y) + " is " +str(grid[x][y]) + " with these neighbors: foxes: " + str(fox_neighbors) + " rabbits: "+ str(rabbit_neighbors) + " stags: "+ str(stag_neighbors)
 
 
 
