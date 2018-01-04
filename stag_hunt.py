@@ -52,8 +52,9 @@ class Stag:
     def __repr__(self):
         return self.label
 
-#size of game board
-space_size = 10
+
+# size of game board
+space_size = 3
 
 # animals in ecosystem and probability of seed
 ecosystem = {"r": 0.5, "s": 0.5, "f": 0.5}
@@ -63,7 +64,7 @@ def initialize():
     global grid, next_grid, foxes, rabbits, stags
     grid = []
 
-    #seed gameboard
+    # seed gameboard
     for x in range(space_size):
         row = []
         for y in range(space_size):
@@ -84,8 +85,6 @@ def initialize():
     pprint.pprint(grid)
 
 
-
-
 def observe():
     imshow(grid, cmap=cm.binary)
     show()
@@ -97,21 +96,33 @@ def update():
 
     for x in range(space_size):
         for y in range(space_size):
-            current_state = grid[x, y]
-            sick_neighbors = 0
+            fox_neighbors = 0
+            stag_neighbors = 0
+            rabbit_neighbors = 0
             for dx in [-1, 0, 1]:
                 for dy in [-1, 0, 1]:
-                    if(dx, dy) != (0, 0):
-                        sick_neighbors += \
-                            grid[(x+dx) % space_size, (y+dy) % space_size]
-            if current_state == 1:
-                next_grid[x, y] = 1 if random() < sick_neighbors/8. else 0
-            elif current_state == 2 :
-                next_grid[x, y] = 1 if random() < 0.5 else 2
-            else:
-                next_grid[x, y] = 2 if random() > 0.5 else 3
-    grid, next_grid = next_grid, grid
+                    current_species = grid[((x+dx) % space_size)][((y+dy) % space_size)]
+                    if(dx, dy) != (0, 0) and type(current_species) != int:
+                        if grid[((x+dx) % space_size)][((y+dy) % space_size)].label.find('f') > -1:
+                            fox_neighbors += 1
+                        if grid[((x+dx) % space_size)][((y+dy) % space_size)].label.find('r') > -1:
+                            rabbit_neighbors += 1
+                        if grid[((x+dx) % space_size)][((y+dy) % space_size)].label.find('s') > -1:
+                            stag_neighbors += 1
+            print str(x) + ", " + str(y) + " is " +str(grid[x][y]) + " with these neighbors: foxes: " + str(fox_neighbors) + " rabbits: "+ str(rabbit_neighbors) + " stags: "+ str(stag_neighbors)
+
+
+
+    #         if current_state == 1:
+    #             next_grid[x, y] = 1 if random() < sick_neighbors/8. else 0
+    #         elif current_state == 2 :
+    #             next_grid[x, y] = 1 if random() < 0.5 else 2
+    #         else:
+    #             next_grid[x, y] = 2 if random() > 0.5 else 3
+    # grid, next_grid = next_grid, grid
+
 
 initialize()
+update()
 #just calling initial game board for now
 #pycxsimulator.GUI(title='My Simulator', interval=0,parameterSetters=[]).start(func=[initialize, observe, update])
